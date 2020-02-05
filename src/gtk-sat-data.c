@@ -103,6 +103,8 @@ gint gtk_sat_data_read_sat(gint catnum, sat_t * sat)
 
         sat->website = g_key_file_get_string(data, "Satellite", "WEBSITE", NULL);       /* website may be NULL */
 
+        sat->min_elev = g_key_file_get_double(data, "Satellite", "MINELEV", NULL); /* 0.0 is apprpriate default value */
+
         /* get TLE data */
         tlestr1 = g_key_file_get_string(data, "Satellite", "TLE1", NULL);
         if (error != NULL)

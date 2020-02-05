@@ -82,6 +82,15 @@ void gtk_sat_map_popup_exec(sat_t * sat, qth_t * qth,
 
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
 
+    /* add menu item to edit minimum elevation */
+    menuitem = gtk_menu_item_new();
+    gtk_menu_item_set_label(GTK_MENU_ITEM(menuitem), "Minimum elevation");
+    g_object_set_data(G_OBJECT(menuitem), "sat", sat);
+    g_signal_connect(menuitem, "activate", G_CALLBACK(edit_min_elevation_cb),
+                     toplevel);
+
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
+
     /* separator */
     menuitem = gtk_separator_menu_item_new();
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);

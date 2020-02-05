@@ -55,6 +55,45 @@ void show_sat_info_menu_cb(GtkWidget * menuitem, gpointer data)
     show_sat_info(sat, data);
 }
 
+void edit_min_elevation_cb(GtkWidget * menuitem, gpointer data) 
+{
+    sat_t          *sat;
+
+    sat = SAT(g_object_get_data(G_OBJECT(menuitem), "sat"));
+    printf("Editing min elevation for %p (%g)\n", sat, sat->min_elev);
+    GtkWidget *toplevel = GTK_WINDOW(data);
+
+    GtkWidget *dialog = gtk_dialog_new_with_buttons("Edit min elevation",
+                                                    toplevel,
+                                                    GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                    "Ok", GTK_RESPONSE_ACCEPT,
+                                                    "Cancel", GTK_RESPONSE_REJECT, 
+                                                    NULL);
+    gtk_container_set_border_width(GTK_CONTAINER(dialog), 5);
+    GtkWidget *label = gtk_label_new("Min elevation");
+    GtkWidget *vbox = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+    gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
+
+    GtkWidget *spin = gtk_spin_button_new_with_range(0.0, 89.0, 1.0);
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), sat->min_elev);
+    gtk_box_pack_start(GTK_BOX(vbox), spin, FALSE, FALSE, 0);
+
+    gtk_widget_show_all(dialog);
+
+    gint response = gtk_dialog_run(GTK_DIALOG(dialog));
+    switch(response) 
+    {
+        case GTK_RESPONSE_ACCEPT:
+            sat->min_elev = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spin));
+            break;
+        default:
+            break;
+    }
+
+    gtk_widget_destroy(dialog);
+    
+}
+
 
 /* Create transponder table. */
 static GtkWidget *create_transponder_table(guint catnum)

@@ -189,6 +189,7 @@ typedef struct {
     double          meanmo;     /*!< mean motion kept in rev/day */
     long            orbit;      /*!< orbit number */
     orbit_type_t    otype;      /*!< orbit type. */
+    double          min_elev;   /*!< minimum elevation for visibility */
 } sat_t;
 
 

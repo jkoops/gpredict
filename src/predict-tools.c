@@ -101,7 +101,11 @@ void predict_calc(sat_t * sat, qth_t * qth, gdouble t)
 
     /* same formulas, but the one from predict is nicer */
     //sat->footprint = 2.0 * xkmper * acos (xkmper/sat->pos.w);
-    sat->footprint = 12756.33 * acos(xkmper / (xkmper + sat->alt));
+    //sat->footprint = 12756.33 * acos(xkmper / (xkmper + sat->alt));
+    double min_elev = sat->min_elev * de2ra;
+    double beta = pio2 - min_elev - asin(cos(min_elev) * xkmper / (xkmper + sat->alt));
+    sat->footprint = 2.0 * xkmper * beta;
+    
     age = sat->jul_utc - sat->jul_epoch;
     sat->orbit = (long)floor((sat->tle.xno * xmnpda / twopi +
                               age * sat->tle.bstar * ae) * age +

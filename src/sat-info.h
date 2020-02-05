@@ -9,5 +9,6 @@
 
 void            show_sat_info_menu_cb(GtkWidget * menuitem, gpointer data);
 void            show_sat_info(sat_t * sat, gpointer data);
+void            edit_min_elevation_cb(GtkWidget * menuitem, gpointer data);
 
 #endif
